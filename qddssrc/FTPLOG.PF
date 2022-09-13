@@ -1,0 +1,34 @@
+      * Automatic FTP    _____________________________________________
+
+      *===============================================================*
+      *                                                               *
+      *       Object Name: FTPLOG                                     *
+      *              Type: File                                       *
+      *          Atribute: Physical File                              *
+      *       Description: Log for Automatic FTP Transfer             *
+      *            Author: Ramon Lopez                                *
+      *                                                               *
+      *===============================================================*
+      *                                                               *
+      *                                                               *
+      *===============================================================*
+
+
+     A                                      UNIQUE
+
+     A          R FTPLOGR
+
+     A            PRFNAM        10A         COLHDG('PROFILE' 'NAME')
+
+     A            LOGDATE         L         COLHDG('LOG' 'DATE')
+
+     A            LOGTIME         T         COLHDG('LOG' 'TIME')
+
+     A            LOGUSR        10A         COLHDG('LOG' 'USER')
+
+     A            LOGSTS         1A         COLHDG('STATUS')
+
+
+     A          K PRFNAM
+     A          K LOGDATE
+     A          K LOGTIME

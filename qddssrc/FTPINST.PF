@@ -1,0 +1,30 @@
+      * Automatic FTP    _____________________________________________
+
+      *===============================================================*
+      *                                                               *
+      *       Object Name: FTPINST                                    *
+      *              Type: File                                       *
+      *          Atribute: Physical File                              *
+      *       Description: FTP Instruction for Automatic FTP Transfer *
+      *            Author: Ramon Lopez                                *
+      *                                                               *
+      *===============================================================*
+      *                                                               *
+      *                                                               *
+      *===============================================================*
+
+
+     A                                      UNIQUE
+
+     A          R FTPINSTR
+
+     A            PRFNAM        10A         COLHDG('PROFILE' 'NAME')
+
+     A            INSTSEQ        3S 0       COLHDG('SEQUENSE')
+
+     A            INSTRUCT      80A         COLHDG('FTP' 'INSTRUCTION')
+
+     A            SPOT           1A         COLHDG('BEFORE/AFTER' 'B/A')
+
+     A          K PRFNAM
+     A          K INSTSEQ

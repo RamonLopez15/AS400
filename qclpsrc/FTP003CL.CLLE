@@ -1,0 +1,38 @@
+/*==================================================================*/
+/* I N F O R M A C I O N   D E L   M O D U L O                      */
+/* -------------------------------------------                      */
+/*                                                                  */
+/*  Application Name: File Transfer Protocol (FTP)                  */
+/*       Description: Executing FTP proccess.                       */
+/*              Date: 07/25/2022.                                   */
+/*            Author: Ramon Lopez                                   */
+/*-------------------------------------------------------------------*/
+/*                     Compilation Instruction                       */
+/*                                                                   */
+/*                                                                   */
+/*   crtBndCL pgm(alopez151/FTP003CL)                                */
+/*            srcFile(alopez151/QCLPSRC)                             */
+/*            dftActGrp(*No)                                         */
+/*            actGrp(*Caller)                                        */
+/*            dbgView(*Source)                                       */
+/*-------------------------------------------------------------------*/
+/*   H I S T O R I A L   D E   M O D I F I C A C I O N E S           */
+/*                                                                   */
+/*---------------------------------------------------------------*/
+             PGM        PARM(&SERVER)
+             DCL        VAR(&LIBRAR) TYPE(*CHAR) LEN(10) +
+                          VALUE('ALOPEZ151')
+             DCL        VAR(&SERVER) TYPE(*CHAR) LEN(20)
+             DCL        VAR(&SERVEX) TYPE(*CHAR) LEN(20)  +
+                          VALUE('LOOPBACK')
+             CLRPFM     FILE(&LIBRAR/FTPOUT)
+             OVRDBF     FILE(INPUT) TOFILE(&LIBRAR/FTPINP)
+             OVRDBF     FILE(OUTPUT) TOFILE(&LIBRAR/FTPOUT) MBR(FTPOUT)
+
+             STRTCPFTP  RMTSYS(&SERVER)
+
+             DLTOVR     *ALL
+             CLRPFM     FILE(&LIBRAR/FTPINP)
+
+
+       ENDPGM

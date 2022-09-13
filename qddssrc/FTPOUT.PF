@@ -1,0 +1,21 @@
+      * Automatic FTP    _____________________________________________
+
+      *===============================================================*
+      *                                                               *
+      *       Object Name: FTPINP                                     *
+      *              Type: File                                       *
+      *          Atribute: Physical File                              *
+      *       Description: Output File for Automatic FTP Transfer     *
+      *            Author: Ramon Lopez                                *
+      *                                                               *
+      *===============================================================*
+      *                                                               *
+      *                                                               *
+      *===============================================================*
+
+
+
+     A          R FTPOUTR
+
+     A            FLDOUT       132A         COLHDG('FTP OUTPUT' 'INSTRUCTION')
+

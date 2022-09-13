@@ -1,0 +1,84 @@
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      INDARA
+     A          R SFL                       SFL
+     A            OPT            1A  B  5 10
+     A            PRFNAM        10A  O  5 12
+     A            DESCRIP       30A  O  5 24
+     A            HOST          20A  O  5 55
+     A          R CTL                       SFLCTL(SFL)
+     A                                      CA03(03 'F3=Exit')
+     A                                      CA10(10 'F10=Add')
+     A                                      OVERLAY
+     A  51                                  SFLDSP
+     A N50                                  SFLDSPCTL
+     A  50                                  SFLCLR
+     A N50                                  SFLEND(*MORE)
+     A                                      SFLSIZ(9999)
+     A                                      SFLPAG(0017)
+     A                                  4 12'Profile'
+     A                                      DSPATR(HI)
+     A                                      DSPATR(UL)
+     A                                  4 20' Description                  '
+     A                                      DSPATR(HI)
+     A                                      DSPATR(UL)
+     A                                  4 55' Host               '
+     A                                      DSPATR(HI)
+     A                                      DSPATR(UL)
+     A                                  1 27'FTP Profile Maintenance'
+     A                                      DSPATR(HI)
+     A                                  4  8'Opt'
+     A                                      DSPATR(HI)
+     A                                      DSPATR(UL)
+     A                                  2  8'1=Select'
+     A                                      COLOR(BLU)
+     A          R FTR
+     A                                 24  2'F3=Exit'
+     A            MSG           78   O 23  2DSPATR(HI)
+     A                                      DSPATR(BL)
+     A                                 24 12'F10=Add New'
+     A          R MAINT
+     A                                      CHGINPDFT
+     A                                      CA03(03 'F3=Exit')
+     A                                      CA12(12 'F12=Cancel')
+     A                                  1 31'Customer Maintenance'
+     A                                      DSPATR(HI)
+     A                                  3  2'Profile:'
+     A            PRFNAM        10   B  3 11
+     A                                  5  5'Description:'
+     A            DESCRIP       30A  B  5 18
+     A N40                                  DSPATR(UL)
+     A  40                                  DSPATR(PR)
+     A                                      CHECK(LC)
+     A                                  6  3'Host:  '
+     A            HOST          20A  B  6 11
+     A N40                                  DSPATR(UL)
+     A  40                                  DSPATR(PR)
+     A                                      CHECK(LC)
+     A                                  7  5'User:'
+     A            USER          10A  B  7 11
+     A N40                                  DSPATR(UL)
+     A  40                                  DSPATR(PR)
+     A                                      CHECK(LC)
+     A                                  8  4'Password:'
+     A            XPASS         20A  B  8 14
+     A N40                                  DSPATR(UL)
+     A  40                                  DSPATR(PR)
+     A                                      CHECK(LC)
+     A            MSG           78A  O 23  2DSPATR(HI)
+     A                                      DSPATR(BL)
+     A                                 24  2'F3=Exit'
+     A                                 24 14'F12=Cancel'
+     A                                 24 70'ENTER=Save'
+     A          R SIGNIN
+     A                                      CA03(03 'F3=Exit')
+     A                                  3  2'Please enter your user-id and pass-
+     A                                      word for'
+     A                                      DSPATR(HI)
+     A            REALM         78   O  4  2DSPATR(HI)
+     A                                  9  2'User Id:'
+     A            USERID        10A  B  9 12CHECK(LC)
+     A                                 11  2'Password:'
+     A            PASSWORD      20A  B 11 12CHECK(LC)
+     A                                      DSPATR(ND)
+     A                                 24  2'F3=Exit'
+     A                                      COLOR(BLU)

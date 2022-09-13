@@ -1,0 +1,21 @@
+      * Automatic FTP    _____________________________________________
+
+      *===============================================================*
+      *                                                               *
+      *       Object Name: FTPINP                                     *
+      *              Type: File                                       *
+      *          Atribute: Physical File                              *
+      *       Description: Input File for Automatic FTP Transfer      *
+      *            Author: Ramon Lopez                                *
+      *                                                               *
+      *===============================================================*
+      *                                                               *
+      *                                                               *
+      *===============================================================*
+
+
+
+     A          R FTPINPR
+
+     A            FLDINP       132A         COLHDG('FTP INPUT' 'INSTRUCTION')
+

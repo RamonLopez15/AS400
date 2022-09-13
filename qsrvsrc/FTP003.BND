@@ -1,0 +1,14 @@
+/*-                                                                            +
+ * BATCH FTP Project                                                           +
+ * Author: Ramon A. Lopez                                                      +
+ * Program Fuction: Execute FTP Proccess                                       +
+ * Date 08/04/2022                                                             +
+ * Platform: PUB400.COM                                                        +
+ */                                                                            +
+
+/* This file contains export sources for the HTTPAPI service program +
+ * _without_ using the Global Secure Tookit (GSKit) for SSL support */
+
+STRPGMEXP PGMLVL(*CURRENT) SIGNATURE('FTP003V1')
+     EXPORT SYMBOL(EXECUTEFTP)
+ENDPGMEXP

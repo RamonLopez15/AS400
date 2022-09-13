@@ -1,0 +1,33 @@
+      * Automatic FTP    _____________________________________________
+
+      *===============================================================*
+      *                                                               *
+      *       Object Name: FTPPRF                                     *
+      *              Type: File                                       *
+      *          Atribute: Physical File                              *
+      *       Description: Profile entries for Automatic FTP Transfer *
+      *            Author: Ramon Lopez                                *
+      *                                                               *
+      *===============================================================*
+      *                                                               *
+      *                                                               *
+      *===============================================================*
+
+
+     A                                      UNIQUE
+
+     A          R FTPPRFR
+
+     A            PRFNAM        10A         COLHDG('PROFILE' 'NAME')
+
+     A            DESCRIP       30A         COLHDG('DESCRIPTION')
+
+     A            HOST          20A         COLHDG('HOST' 'DNS OR IP')
+
+     A            USER          10A         COLHDG('HOST' 'USER')
+
+     A            PASSW        128A         COLHDG('HOST' 'PASS')
+
+     A            PLEN          10S 0       COLHDG('PASS' 'LENGTH')
+
+     A          K PRFNAM

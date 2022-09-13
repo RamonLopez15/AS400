@@ -1,0 +1,13 @@
+/*-                                                                            +
+ * BATCH FTP Project                                                           +
+ * Author: Ramon A. Lopez                                                      +
+ * Program Fuction: Encrypt & Decrypt password for FTP User                    +
+ * Date 08/04/2022                                                             +
+ * Platform: PUB400.COM                                                        +
+ */                                                                            +
+
+
+STRPGMEXP PGMLVL(*CURRENT) SIGNATURE('FTP0031V1')
+     EXPORT SYMBOL(ENCRYPTDATA)
+     EXPORT SYMBOL(DECRYPTDATA)
+ENDPGMEXP

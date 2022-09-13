@@ -1,0 +1,40 @@
+      * Automatic FTP    _____________________________________________
+
+      *===============================================================*
+      *                                                               *
+      *       Object Name: FTPFILES                                   *
+      *              Type: File                                       *
+      *          Atribute: Physical File                              *
+      *       Description: Files for Automatic FTP Transfer           *
+      *            Author: Ramon Lopez                                *
+      *                                                               *
+      *===============================================================*
+      *                                                               *
+      *                                                               *
+      *===============================================================*
+
+
+     A                                      UNIQUE
+
+     A          R FTPFILESR
+
+     A            PRFNAM        10A         COLHDG('PROFILE' 'NAME')
+
+     A            FILESEQ        6S 0       COLHDG('SEQUENSE')
+
+     A            GETPUT         1A         COLHDG('GET' 'PUT')
+
+     A            FNAME         10A         COLHDG('FILE' 'NAME')
+
+     A            LNAME         10A         COLHDG('LIBRARY' 'NAME')
+
+     A            MBRNAM        10A         COLHDG('MEMBER' 'NAME')
+
+     A            FNAMET        10A         COLHDG('FILE' 'NAME' 'TGT')
+
+     A            LNAMET        10A         COLHDG('LIBRARY' 'NAME' 'TGT')
+
+     A            MBRNAMT       10A         COLHDG('MEMBER' 'NAME' 'TGT')
+
+     A          K PRFNAM
+     A          K FILESEQ
