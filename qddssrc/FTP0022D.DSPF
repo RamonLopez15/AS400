@@ -1,0 +1,200 @@
+     A*---------------------------------------------------
+     A* BATCH FTP Project
+     A* Author: Ramon A. Lopez
+     A* Program Fuction: FTP Instructions Maintenance
+     A* Date 08/09/2022
+     A* Platform: PUB400.COM
+     A*---------------------------------------------------
+     A*%%TS  SD  20100721  182938  GIAYP15     REL-V5R2M0  5722-WDS
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A          R FTP022D1
+     A*%%TS  SD  20100624  173906  GIAYP15     REL-V5R2M0  5722-WDS
+     A                                      WINDOW(1 2 22 74)
+     A                                  2  1USER
+     A                                  1 67DATE
+     A                                      EDTCDE(Y)
+     A                                  2 67TIME
+     A                                  1  1'FTP0022 '
+     A                                  1 33'BATCH FTP MODULE'
+     A                                  2 27'FTP Files-2-Transf Maintenance'
+     A                                      COLOR(WHT)
+     A            MODE           6A  O  2 53
+     A          R FTP022D4
+     A*%%TS  SD  20100407  112710  GIAYP15     REL-V5R2M0  5722-WDS
+     A                                      CF02(02 'Print')
+     A                                      CF03(03 'Exit')
+     A                                      CF12(12 'Prior Screen'     )
+     A                                      CF08(08 'List')
+     A                                      WINDOW(4 2 18 74 *NOMSGLIN)
+     A                                      USRRSTDSP
+     A                                 17  1'                                  -
+     A                                                                         -
+     A                                       '
+     A                                      DSPATR(UL)
+     A            DEMSG_TMSG    60A  O 18  7
+     A  25                                  DSPATR(RI)
+     A          R FTP022A2                  SFL
+     A*%%TS  SD  20100624  160928  GIAYP15     REL-V5R2M0  5722-WDS
+     A  74                                  SFLNXTCHG
+     A            OPTION         1A  B  5  1COLOR(YLW)
+     A            FILESEQ        6Y 0O  5  5
+     A            LNAME         10   O  5 12
+     A            FNAME         10   O  5 24
+     A            MBRNAM        10   O  5 36
+     A          R FTP022A3                  SFLCTL(FTP022A2)
+     A*%%TS  SD  20100708  113120  GIAYP15     REL-V5R2M0  5722-WDS
+     A                                      SFLSIZ(9999)
+     A                                      SFLPAG(0010)
+     A                                      WINDOW(FTP022D4)
+     A                                      CF02(02 'Print')
+     A                                      CF03(03 'Exit')
+     A                                      CF06(06 'Add')
+     A                                      CF08(08 'List')
+     A                                      CF12(12 'Prior Screen'     )
+     A                                      CF10(10 'Proccess')
+     A                                      ROLLUP
+     A                                      ROLLDOWN
+     A                                      RTNCSRLOC(*RECNAME &RCD001 &AYUDA)
+     A                                      OVERLAY
+     A  91                                  SFLDSP
+     A  91                                  SFLDSPCTL
+     A  90                                  SFLCLR
+     A  94                                  SFLEND(*SCRBAR *SCRBAR)
+     A                                      RMVWDW
+     A                                      USRRSTDSP
+     A            RCD001        10A  H
+     A            AYUDA         10A  H
+     A            RRN1           4S 0H      SFLRCDNBR(*TOP)
+     A                                  4  1'Opc Seq    Library     File       -
+     A                                      Member'
+     A                                      DSPATR(UL)
+     A                                      COLOR(WHT)
+     A                                  3  1'2='
+     A                                      COLOR(YLW)
+     A                                  3  4'Edit'
+     A                                      COLOR(BLU)
+     A                                  3 16'4='
+     A                                      COLOR(YLW)
+     A                                  3 19'Delete'
+     A                                      COLOR(BLU)
+     A                                  3 30'5='
+     A                                      COLOR(YLW)
+     A                                  3 33'Display'
+     A                                      COLOR(BLU)
+     A                                  1  1'Go to Secuense:'
+     A                                      COLOR(BLU)
+     A            SITUAR         3  0B  1 21
+     A*
+     A          R FTP022D5
+     A*%%TS  SD  20100625  102236  GIAYP15     REL-V5R2M0  5722-WDS
+     A                                      WINDOW(6 4 16 70 *NOMSGLIN)
+     A                                      CF12(12 'Prior Scr')
+     A                                      CF03(03 'Exit')
+     A                                      USRRSTDSP
+     A                                  3  1'FTP Profile.........:'
+     A                                  4  1'Sequence............:'
+     A                                  5  1'Library.............:'
+     A                                  6  1'File................:'
+     A                                  7  1'Member..............:'
+     A                                  8  1'Get or Put..........:'
+     A            PRFNAM        10A  O  3 25COLOR(TRQ)
+     A            FILESEQ        6Y 0O  4 25
+     A            LNAME         10A  O  5 25
+     A            FNAME         10A  O  6 25
+     A            MBRNAM        10A  O  7 25
+     A            LNAMET        10A  O  5 38
+     A            FNAMET        10A  O  6 38
+     A            MBRNAMT       10A  O  7 38
+     A            GETPUT         1A  O  8 25
+     A*
+     A*
+     A          R FTP022D6
+     A*%%TS  SD  20100407  133025  GIAYP15     REL-V5R2M0  5722-WDS
+     A                                      WINDOW(6 4 16 70 *NOMSGLIN)
+     A                                      CF12(12 'Prior Scr')
+     A                                      CF03(03 'Exit')
+     A                                      USRRSTDSP
+     A                                  3  1'FTP Profile.........:'
+     A                                  4  1'Sequence............:'
+     A                                  5  1'Library from........:'
+     A                                  6  1'File from...........:'
+     A                                  7  1'Member from.........:'
+     A                                  8  1'Library To..........:'
+     A                                  9  1'File To.............:'
+     A                                 10  1'Member To...........:'
+     A                                 11  1'Get or Put..........:'
+     A            PRFNAM        10A  O  3 25COLOR(TRQ)
+     A            FILESEQ        6Y 0O  4 25
+     A            LNAME         10A  B  5 25
+     A            FNAME         10A  B  6 25
+     A            MBRNAM        10A  B  7 25
+     A            LNAMET        10A  B  8 25
+     A            FNAMET        10A  B  9 25
+     A            MBRNAMT       10A  B 10 25
+     A            GETPUT         1A  B 11 25
+     A
+     A*  --------------------------------------------------------------
+     A*  -  Window for Record Delete Confirmation                     -
+     A*  --------------------------------------------------------------
+     A          R FTP022A4                  SFL
+     A*%%TS  SD  20100625  111930  GIAYP15     REL-V5R2M0  5722-WDS
+     A            FILESEQ        6Y 0O  6  1
+     A            LNAME         10   O  6 14
+     A            FNAME         10   O  6 26
+     A            MBRNAM        10   O  6 38
+     A            GETPUT         1   O  6 50
+     A            PRFNAM        10A  H
+     A          R FTP022A5                  SFLCTL(FTP022A4)
+     A*%%TS  SD  20100625  120732  GIAYP15     REL-V5R2M0  5722-WDS
+     A                                      SFLSIZ(0009)
+     A                                      SFLPAG(0008)
+     A                                      WINDOW(4 10 16 52)
+     A                                      CF03(03 'Exit')
+     A                                      CF12(12 'Prior Screen'     )
+     A                                      SFLDSP
+     A N41                                  SFLDSPCTL
+     A  41                                  SFLCLR
+     A N41                                  SFLEND(*MORE)
+     A            RRN2           4S 0H
+     A                                  2  2'Press ENTER to confirm record  -
+     A                                       to delete.'
+     A                                      COLOR(BLU)
+     A                                  3  2'F12=Cancel-return to prior Screen'
+     A                                      COLOR(BLU)
+     A                                  5  1'Seq'
+     A                                      DSPATR(HI)
+     A                                  5 14'Library    File       Member'
+     A                                      DSPATR(HI)
+     A                                  5 45'G/P'
+     A                                      DSPATR(HI)
+      *
+      *-----------------------------------------------------------
+      *  -  Error message subfile control record format               -
+      *  --------------------------------------------------------------
+      *
+     A          R MSGSFL                    SFL
+     A                                      SFLMSGRCD(17)
+     A            MSGKEY                    SFLMSGKEY
+     A            PGMQ                      SFLPGMQ
+
+      *  --------------------------------------------------------------
+      *  -  Error message subfile control                             -
+      *  --------------------------------------------------------------
+
+     A          R MSGCTL                    SFLCTL(MSGSFL)
+     A                                      WINDOW(FTP022D4)
+     A                                      OVERLAY
+     A                                      SFLDSP
+     A                                      SFLDSPCTL
+     A                                      SFLINZ
+     A  99                                  SFLEND
+     A                                      SFLSIZ(0002)
+     A                                      SFLPAG(0001)
+     A            PGMQ                      SFLPGMQ(10)
+      *  --------------------------------------------------------------
+      *  -  Dummy record format to prevent background erasure         -
+      *  --------------------------------------------------------------
+
+     A          R DUMMY                     ASSUME
+     A                                  1  2' '

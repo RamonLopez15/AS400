@@ -2,29 +2,29 @@
 //
 // BATCH FTP Project
 // Author: Ramon A. Lopez
-// Program Fuction: FTP Instructions Maintenance
-// Date 08/09/2022
+// Program Fuction: FTP Files-2-Transfer Maintenance
+// Date 10/02/2022
 // Platform: PUB400.COM
 //
 //
 //  To Compile:
-//  *> CRTDSPF FILE(FTP0021D) SRCFILE(QDDSSRC)
-//  *> CRTBNDRPG FTP0021 SRCFILE(QRPGLESRC) DBGVIEW(*LIST)
+//  *> CRTDSPF FILE(FTP0022D) SRCFILE(QDDSSRC)
+//  *> CRTBNDRPG FTP0022 SRCFILE(QRPGLESRC) DBGVIEW(*LIST)
 //
 
 ctl-opt dftactgrp(*no) actgrp(*new)
         bnddir('FTPTRAN')
         option(*srcstmt:*nodebugio:*noshowcpy);
 
-dcl-f FTP0021D workstn infds(info) sfile(FTP021A2:rrn1)
-                                   sfile(FTP021A4:rrn2);
+dcl-f FTP0022D workstn infds(info) sfile(FTP022A2:rrn1)
+                                   sfile(FTP022A4:rrn2);
 dcl-f FTPPRF   usage(*input) keyed;
-dcl-f FTPINST  usage(*input:*update:*output:*delete) keyed;
+dcl-f ftpfiles usage(*input:*update:*output:*delete) keyed;
 
-dcl-ds KeyInst likerec(FTPINSTR:*Key);
+dcl-ds KeyFile likerec(FTPFilesR:*Key);
 dcl-ds ProfDs likerec(FTPPRFR:*input);
-dcl-ds InstDs  likerec(FTPINSTR:*input);
-dcl-ds InstDs2 likerec(FTPINSTR:*output);
+dcl-ds FileDS  likerec(FTPFilesR:*input);
+dcl-ds FileDS2 likerec(FTPFilesR:*output);
 
 /INCLUDE FTPTRAN_H
 
@@ -35,27 +35,32 @@ end-ds;
 
 dcl-ds Data  Inz;
   Option char(1);
-  INSTSEQ Zoned(3);
+  FileSeq Zoned(6);
   PRFNAM  char(10);
-  INSTRUCTX char(60);
-  filler char(182) Inz(*Blanks);
+  LNAME   char(10);
+  FNAME   char(10);
+  MBRNAM  char(10);
+  LNAMET  char(10);
+  FNAMET  char(10);
+  MBRNAMT char(10);
+  filler char(179) Inz(*Blanks);
   KeyData char(4) pos(1);
 end-ds;
 
 dcl-ds Data§ Inz;
   Option§ char(1);
   PRFNAM§  char(10);
-  INSTSEQ§ zoned(3);
+  FileSeq§ zoned(6);
   KeyData§ Zoned(3) pos(12);
   INSTRUCTZ§ char(30);
-  filler§ char(212);
+  filler§ char(209);
 end-ds;
 
 dcl-c Edition const('2');
 dcl-c Delete  const('4');
 dcl-c Display const('5');
-dcl-c Before  const('B');
-dcl-c After   const('A');
+dcl-c Get     const('G');
+dcl-c Put     const('P');
 dcl-c Etiqueta   const('F3=Exit  F12=Prior Scrn');
 dcl-c Exit  const(X'33');
 dcl-c Cancel const(X'3C');
@@ -91,7 +96,6 @@ dcl-ds dspf qualified;
    sfldsp ind pos(51);
 end-ds;
 
-//dcl-s perfil char(10) inz('VERSION');
 dcl-s Cmd      Char(1000);
 dcl-s count zoned(4);
 dcl-s lstrrn zoned(4);
@@ -100,9 +104,9 @@ dcl-s rrn packed(4: 0);
 dcl-s recsLoaded like(rrn);
 dcl-s Clave   Varchar(128);
 dcl-s lib     char(10) Inz('QTEMP');
-dcl-s queue   char(10) Inz('SFLDTAQDQ');
+dcl-s queue   char(10) Inz('SFLDTAQDQ1');
 dcl-s Len     Packed(5) Inz(256);
-dcl-s Keyln   Packed(3) Inz(4);
+dcl-s Keyln   Packed(3) Inz(7);
 dcl-s wait    Packed(5) Inz(0);
 dcl-s sndlen  Packed(3) Inz(0);
 dcl-s order   char(2) Inz('EQ');
@@ -117,7 +121,7 @@ dcl-s Done01   char(1) Inz('0');
 dcl-s It  Int(5);
 dcl-s SavSeq zoned(3);
 
-dcl-pr Main Extpgm('FTP0021');
+dcl-pr Main Extpgm('FTP0022');
   Perfil char(10);
 end-pr;
 //
@@ -126,24 +130,26 @@ dcl-pi *N;
 end-pi;
 
         // Execute FTP
-        Cmd = 'CALL PGM(FTP0021CL)';
+        Cmd = 'CALL PGM(FTP0022CL)';
         qCmdExc(Cmd:%len(Cmd));
 
-        KeyInst.PRFNAM = Perfil;
-        Setll %kds(KeyInst:1) FTPINSTR;
+        KeyFile.PRFNAM = Perfil;
+        Setll %kds(KeyFile:1) FTPFilesR;
         LoadSflList();
 
         Dou Key   = Exit;
 
              lstrrn   =  rrn1;
              rrn1     =  1;
-             Write FTP021D1;
+             Write FTP022D1;
              DEMSG_TMSG  =  Etiqueta;
-             PRFNAM  =  InstDS.PRFNAM;
-             SPOT    =  InstDS.SPOT;
-             INSTSEQ =  InstDS.INSTSEQ;
-             INSTRUCTX = %Subst(InstDS.INSTRUCT:1:60);
-             Write FTP021D4;
+             PRFNAM  =  FileDS.PRFNAM;
+             GETPUT  =  FileDS.GETPUT;
+             FileSeq =  FileDS.FileSeq;
+             LNAME   =  FileDS.LNAME;
+             FNAME   =  FileDS.FNAME;
+             MBRNAM  =  FileDS.MBRNAM;
+             Write FTP022D4;
 
             If NoBorrar;
                       PgmQ  =  '*';
@@ -151,7 +157,7 @@ end-pi;
                       NoBorrar = *Off;
             Endif;
 
-             Exfmt FTP021A3;
+             Exfmt FTP022A3;
 
             // PgmQ  =  '*';
              ClrMsg();    // Clear Subfile Message Error
@@ -162,9 +168,9 @@ end-pi;
 
              When Key = enter and Situar <> *Zeros;
                   Addque();
-                  KeyInst.PRFNAM  = Perfil;
-                  KeyInst.INSTSEQ = Situar;
-                  Setll %Kds(keyInst) FTPINSTR;
+                  KeyFile.PRFNAM  = Perfil;
+                  KeyFile.FileSeq = Situar;
+                  Setll %Kds(KeyFile) FTPFilesR;
                   LoadSflList();
 
                             // When Enter is pressed proccess subfile
@@ -174,14 +180,14 @@ end-pi;
              When Key = enter and Situar = *Zeros;
                   Addque();
                   Prcsfl();
-                  Setll %Kds(keyInst:1) FTPINSTR;
+                  Setll %Kds(KeyFile:1) FTPFilesR;
                   LoadSflList();
 
              When Key = F06;
                   ModoAdicion = *On;
                   Addque();
                   ChgDtl();
-                  Setll %Kds(keyInst:1) FTPINSTR;
+                  Setll %Kds(KeyFile:1) FTPFilesR;
                   LoadSflList();
 
                             // Page Dwn - Load options to Dtaq before
@@ -210,16 +216,16 @@ end-pi;
 //-----------------------------------------------------------
 dcl-proc Goback;
 
-              keyInst.PRFNAM  = perfil;
-              keyInst.INSTSEQ = savseq;
-              Setll %Kds(keyInst) FTPINSTR;
+              KeyFile.PRFNAM  = perfil;
+              KeyFile.FileSeq = savseq;
+              Setll %Kds(KeyFile) FTPFilesR;
               Clear      it;
 
               Dou It = Sflpag_plus_1;
 
-                   Readpe %Kds(KeyInst:1) FTPINSTR InstDS;
-                   If %Eof(FTPINST);
-                        Setll *Loval FTPINSTR;
+                   Readpe %Kds(KeyFile:1) FTPFilesR FileDS;
+                   If %Eof(FTPFiles);
+                        Setll *Loval FTPFilesR;
                         Leave;
                    Endif;
 
@@ -237,7 +243,7 @@ dcl-proc ClrMsg;
 
              //  Msg  = *Blanks;
                  ClrMsgQ('*':*Zero:*Blanks:'*ALL':ErrorDs);
-             //  Write FTP021D4;       // Write Windows
+             //  Write FTP022D4;       // Write Windows
              //  Write MsgCtl;         // Write to Subfile Msg Record
 
 end-proc;
@@ -257,7 +263,7 @@ dcl-proc PrnMsg;
                          *Blanks   :
                          ErrorDs   );
 
-                 Write FTP021D4;       // Write Windows
+                 Write FTP022D4;       // Write Windows
                  Write MsgCtl;         // Write to Subfile Msg Record
             //   sleep(5);
 
@@ -295,7 +301,7 @@ end-proc;
 // -------------------------------------------------------------------
 dcl-proc Addque;
 
-              Readc FTP021A2;
+              Readc FTP022A2;
 
               Dow not %Eof;
 
@@ -307,7 +313,7 @@ dcl-proc Addque;
                              keyln   :
                              keydata );
 
-                   Readc FTP021A2;
+                   Readc FTP022A2;
 
               Enddo;
 
@@ -326,14 +332,20 @@ dcl-proc VldPan;
 
                 Errores = *Off;
 
-                If SPOT <> Before And SPOT <> After;
-                        Msg     = 'SPOT should be B or A';
+                If GETPUT <> Get And GETPUT <> Put;
+                        Msg     = 'GETPUT should be G or P';
                         *In68   = *On;
                         Errores = *On;
                 Endif;
 
-                If INSTRUCY = *Blanks;
-                        Msg     = 'Instruction should not be blank';
+                If LNAME    = *Blanks;
+                        Msg     = 'Library From should not be blank';
+                        *In69   = *On;
+                        Errores = *On;
+                Endif;
+
+                If FNAME    = *Blanks;
+                        Msg     = 'File From should not be blank';
                         *In69   = *On;
                         Errores = *On;
                 Endif;
@@ -358,40 +370,42 @@ dcl-proc loadSflList;
    rrn1    =  *Zeros;
    SflClr  =  *On;
    SflDsp  =  *Off;
-   Write FTP021A3;              // Clear Subfile
+   Write FTP022A3;              // Clear Subfile
    SflClr  =  *Off;
    SflDsp  =  *On;
    Clear      it;
 
    Dou It  = Sflpag;
-       Reade %Kds(KeyInst:1) FTPINSTR InstDS;
-       If %Eof(FTPINST) and rrn1 = *Zero;
+       Reade %Kds(KeyFile:1) FTPFilesR FileDS;
+       If %Eof(FTPFiles) and rrn1 = *Zero;
            Clear Situar;
-           Setgt %Kds(keyinst:1) FTPINSTR;
-           Readpe %kds(keyinst:1) FTPINSTR InstDS;
+           Setgt %Kds(KeyFile:1) FTPFilesR;
+           Readpe %kds(KeyFile:1) FTPFilesR FileDS;
        Endif;
 
-       If %Eof(FTPINST) and rrn1 > *Zero;
+       If %Eof(FTPFiles) and rrn1 > *Zero;
                Leave;
        Endif;
 
 
        Option  =  *Blanks;
 
-       PRFNAM  =  InstDS.PRFNAM;
-       SPOT    =  InstDS.SPOT;
-       INSTSEQ =  InstDS.INSTSEQ;
-       INSTRUCTX = %Subst(InstDS.INSTRUCT:1:60);
+       PRFNAM  =  FileDS.PRFNAM;
+       GETPUT  =  FileDS.GETPUT;
+       FileSeq =  FileDS.FileSeq;
+       LNAME   =  FileDS.LNAME;
+       FNAME   =  FileDS.FNAME;
+       MBRNAM  =  FileDS.MBRNAM;
 
    // Verify Data Queue for any option executed
        Rcvque();
        rrn1   +=  1;
 
-       Write FTP021A2;
+       Write FTP022A2;
        SflNextChg =  *Off;
 
        If rrn1 = 1;
-          savseq = INSTSEQ;
+          savseq = FileSeq;
        Endif;
 
        It      +=  1;
@@ -409,7 +423,7 @@ dcl-proc Prcsfl;
 
            SflClrWin = *On;
 
-           Write FTP021A5;
+           Write FTP022A5;
            SflClrWin = *Off;
            rrn2      = *Zero;
                                     // Read records from Dtaq until
@@ -435,11 +449,11 @@ dcl-proc Prcsfl;
                      Select;
                                             // Edit Routine
                      When option = Edition;
-                           keyInst.PRFNAM  = Perfil;
-                           keyInst.INSTSEQ = INSTSEQ;
+                           KeyFile.PRFNAM  = Perfil;
+                           KeyFile.FileSeq = FileSeq;
 
-                           Chain %Kds(keyInst) FTPINSTR InstDS;
-                           If %Found(FTPINST);
+                           Chain %Kds(KeyFile) FTPFilesR FileDS;
+                           If %Found(FTPFiles);
 
                                mode  = 'Change';
                                modoAdicion = *Off;
@@ -456,22 +470,26 @@ dcl-proc Prcsfl;
 
                      When option = Delete;
 
-                           INSTRUCTZ§= %Subst(INSTRUCTX:1:30);
 
                            rrn2 += 1;
                            data§     = data;
-                           Write FTP021A4;
+                           Write FTP022A4;
 
          // Display Data
 
                      When option = Display;
                            mode  = *Blanks;
-                           keyInst.PRFNAM  = Perfil;
-                           keyInst.INSTSEQ = INSTSEQ;
-                           Chain %Kds(keyInst) FTPINSTR InstDS;
-                           INSTRUCY = %Subst(InstDS.INSTRUCT
-                                             :1:40);
-                           Exfmt FTP021D5;
+                           KeyFile.PRFNAM  = Perfil;
+                           KeyFile.FileSeq = FileSeq;
+                           Chain %Kds(KeyFile) FTPFilesR FileDS;
+                           GETPUT  =  FileDS.GETPUT;
+                           LNAME   =  FileDS.LNAME;
+                           FNAME   =  FileDS.FNAME;
+                           MBRNAM  =  FileDS.MBRNAM;
+                           LNAMET  =  FileDS.LNAMET;
+                           FNAMET  =  FileDS.FNAMET;
+                           MBRNAMT =  FileDS.MBRNAMT;
+                           Exfmt FTP022D5;
                            If Key = Exit or Key = Cancel;
                                 Leave;
                            Endif;
@@ -490,12 +508,12 @@ dcl-proc Prcsfl;
 
                      lstrrn2  =  rrn2;
                      rrn2     =  1;
-                     Exfmt FTP021A5;
+                     Exfmt FTP022A5;
                      If Key <> Exit and Key <> Cancel;
                            DltRcd();
-                           keyInst.PRFNAM  = Perfil;
-                           keyInst.INSTSEQ = 1;
-                           Chain %Kds(keyInst) FTPINSTR;
+                           KeyFile.PRFNAM  = Perfil;
+                           KeyFile.FileSeq = 1;
+                           Chain %Kds(KeyFile) FTPFilesR;
                      Endif;
            Endif;
 
@@ -507,37 +525,48 @@ end-proc;
 dcl-proc Chgdtl;
 
           If ModoAdicion;
-             KeyInst.PRFNAM  = Perfil;
-             Setgt %Kds(KeyInst:1) FTPINSTR;
-             Readpe %Kds(keyInst:1) FTPINSTR InstDS;
-             If %Eof(FTPINST);
-                 INSTSEQ     = 1;
+             KeyFile.PRFNAM  = Perfil;
+             Setgt %Kds(KeyFile:1) FTPFilesR;
+             Readpe %Kds(KeyFile:1) FTPFilesR FileDS;
+             If %Eof(FTPFiles);
+                 FileSeq     = 1;
              Else;
-                 INSTSEQ    += 1;
+                 FileSeq    += 1;
              Endif;
-             Clear  INSTRUCY;
-             Clear  SPOT;
+             Clear  LNAME;
+             Clear  GETPUT;
           Else;
              Done01   =   '0';
-             keyInst.PRFNAM  = Perfil;
-             keyInst.INSTSEQ = INSTSEQ;
-             Chain %Kds(keyInst) FTPINSTR InstDS;
-             If %Found(FTPINST);       //If found bring Edit Screen
-                 INSTRUCY    =  %Subst(InstDS.INSTRUCT:1:40);
+             KeyFile.PRFNAM  = Perfil;
+             KeyFile.FileSeq = FileSeq;
+             Chain %Kds(KeyFile) FTPFilesR FileDS;
+             If %Found(FTPFiles);       //If found bring Edit Screen
+                           GETPUT  =  FileDS.GETPUT;
+                           LNAME   =  FileDS.LNAME;
+                           FNAME   =  FileDS.FNAME;
+                           MBRNAM  =  FileDS.MBRNAM;
+                           LNAMET  =  FileDS.LNAMET;
+                           FNAMET  =  FileDS.FNAMET;
+                           MBRNAMT =  FileDS.MBRNAMT;
              Endif;
           Endif;
 
                   Dow Done01  =  '0';
                        DEMSG_TMSG  =  Etiqueta;
-                       Exfmt FTP021D6;
+                       Exfmt FTP022D6;
                        ClrMsg();        //Clear Subfile Message
                        If Key <> Exit And Key <> Cancel;
                             VldPan();
                             If Not Errores;
-                                 InstDs2 = InstDs;
-                                 InstDs2.INSTRUCT = INSTRUCY;
-                                 InstDs2.SPOT     = SPOT;
-                                 Update FTPINSTR InstDs2;
+                                 FileDS2 = FileDS;
+                                 FileDS2.GETPUT   = GETPUT;
+                                 FileDS2.LNAME     = LNAME;
+                                 FileDS2.FNAME     = FNAME;
+                                 FileDS2.MBRNAM    = MBRNAM;
+                                 FileDS2.LNAMET    = LNAMET;
+                                 FileDS2.FNAMET    = FNAMET;
+                                 FileDS2.MBRNAMT   = MBRNAMT;
+                                 Update FTPFilesR FileDS2;
                                  Done01   =   '1';
                             Else;
                                  PrnMsg();   // Display Error Msg
@@ -559,14 +588,14 @@ dcl-proc DltRcd;
               NoBorrar  =  *Off;
 
               For Count = 1 to lstrrn2;
-                   Chain Count FTP021A4;
+                   Chain Count FTP022A4;
                    If %Found;
 
-                         keyInst.PRFNAM  = PRFNAM;
-                         keyInst.INSTSEQ = INSTSEQ;
+                         KeyFile.PRFNAM  = PRFNAM;
+                         KeyFile.FileSeq = FileSeq;
 
-                         Chain %Kds(keyInst) FTPINSTR;
-                         Delete FTPINSTR;
+                         Chain %Kds(KeyFile) FTPFilesR;
+                         Delete FTPFilesR;
 
 
                    Endif;

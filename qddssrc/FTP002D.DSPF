@@ -29,7 +29,8 @@
      A                                  4  8'Opt'
      A                                      DSPATR(HI)
      A                                      DSPATR(UL)
-     A                                  2  8'1=Select'
+     A                                  2  8'2=Edit  5=Display  7=Instructions -
+     A                                       9=Files'
      A                                      COLOR(BLU)
      A          R FTR
      A                                 24  2'F3=Exit'

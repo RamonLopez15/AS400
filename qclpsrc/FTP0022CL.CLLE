@@ -1,0 +1,28 @@
+/*==================================================================*/
+/* I N F O R M A C I O N   D E L   M O D U L O                      */
+/* -------------------------------------------                      */
+/*                                                                  */
+/*  Application Name: File Transfer Protocol (FTP)                  */
+/*       Description: Create Data Queue for FTP Files Maintenance   */
+/*              Date: 10/02/2022.                                   */
+/*            Author: Ramon Lopez                                   */
+/*-------------------------------------------------------------------*/
+/*                     Compilation Instruction                       */
+/*                                                                   */
+/*                                                                   */
+/*   crtBndCL pgm(alopez151/FTP0022CL)                               */
+/*            srcFile(alopez151/QCLPSRC)                             */
+/*            dftActGrp(*No)                                         */
+/*            actGrp(*Caller)                                        */
+/*            dbgView(*Source)                                       */
+/*-------------------------------------------------------------------*/
+/*   H I S T O R I A L   D E   M O D I F I C A C I O N E S           */
+/*                                                                   */
+/*---------------------------------------------------------------*/
+             PGM
+
+             CRTDTAQ    DTAQ(QTEMP/SFLDTAQDQ1) MAXLEN(256) +
+                          SEQ(*KEYED) KEYLEN(7)
+             MONMSG     MSGID(CPF0000)
+
+       ENDPGM
