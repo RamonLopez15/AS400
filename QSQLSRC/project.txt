@@ -1,0 +1,27 @@
+/*==================================================================*/
+/* I N F O R M A C I O N   D E L   M O D U L O                      */
+/* -------------------------------------------                      */
+/*                                                                  */
+/*  Application Name: Source Control                                */
+/*       Description: Project Master Table                          */
+/*              Date: 11/16/2022.                                   */
+/*            Author: Ramon Lopez                                   */
+/*-------------------------------------------------------------------*/
+/*                     Compilation Instruction                       */
+/*                                                                   */
+/* RUNSQLSTM SRCFILE(ALOPEZ151/QSQLSRC) SRCMBR(PROJECT)              */
+/* ERRLVL(21) DFTRDBCOL(ALOPEZ151)                                   */
+/*                                                                   */
+/*-------------------------------------------------------------------*/
+/* DROP TABLE PROJECT                                                */
+CREATE TABLE PROJECT
+       (CODAPP SMALLINT NOT NULL,
+        CODREL SMALLINT NOT NULL,
+        CODPRO INT NOT NULL,
+        DESCPRO CHAR(30),
+        MANAGER CHAR(10),
+        PRIMARY KEY(CODAPP, CODREL, CODPRO),
+        FOREIGN KEY APPCOD1 (CODAPP)
+        REFERENCES APPLICAT ON DELETE NO ACTION,
+        FOREIGN KEY RELCOD (CODAPP, CODREL)
+        REFERENCES RELEASE ON DELETE NO ACTION )

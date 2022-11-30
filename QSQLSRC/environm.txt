@@ -1,0 +1,20 @@
+/*==================================================================*/
+/* I N F O R M A C I O N   D E L   M O D U L O                      */
+/* -------------------------------------------                      */
+/*                                                                  */
+/*  Application Name: Source Control                                */
+/*       Description: Source File by Type                           */
+/*              Date: 11/16/2022.                                   */
+/*            Author: Ramon Lopez                                   */
+/*-------------------------------------------------------------------*/
+/*                     Compilation Instruction                       */
+/*                                                                   */
+/* RUNSQLSTM SRCFILE(ALOPEZ151/QSQLSRC) SRCMBR(STKHOLDER)            */
+/* ERRLVL(21) DFTRDBCOL(ALOPEZ151)                                   */
+/*                                                                   */
+/*-------------------------------------------------------------------*/
+/* DROP TABLE STKHOLDER                                              */
+CREATE TABLE STKHOLDER
+       (CODSH  CHAR(10)  NOT NULL,
+        NAMESH CHAR(30),
+        PRIMARY KEY(CODSH))

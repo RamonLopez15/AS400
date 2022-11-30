@@ -1,0 +1,25 @@
+/*==================================================================*/
+/* I N F O R M A C I O N   D E L   M O D U L O                      */
+/* -------------------------------------------                      */
+/*                                                                  */
+/*  Application Name: Source Control                                */
+/*       Description: Master Objects                                */
+/*              Date: 11/16/2022.                                   */
+/*            Author: Ramon Lopez                                   */
+/*-------------------------------------------------------------------*/
+/*                     Compilation Instruction                       */
+/*                                                                   */
+/* RUNSQLSTM SRCFILE(ALOPEZ151/QSQLSRC) SRCMBR(OBJECTS)              */
+/* ERRLVL(21) DFTRDBCOL(ALOPEZ151)                                   */
+/*                                                                   */
+/*-------------------------------------------------------------------*/
+/* DROP TABLE OBJECTS                                                */
+CREATE TABLE OBJECTS
+       (OBJNAM CHAR(10) NOT NULL,
+        OBJTYP CHAR(5) NOT NULL,
+        EXTTYP CHAR(5) NOT NULL,
+        PRODENV SMALLINT,
+        CURRENV SMALLINT,
+        PRIMARY KEY(OBJNAM, OBJTYP, EXTTYP),
+        FOREIGN KEY ENVPROD (PRODENV)
+        REFERENCES ENVIRONM ON DELETE NO ACTION)

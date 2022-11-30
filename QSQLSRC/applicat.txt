@@ -1,0 +1,22 @@
+/*==================================================================*/
+/* I N F O R M A C I O N   D E L   M O D U L O                      */
+/* -------------------------------------------                      */
+/*                                                                  */
+/*  Application Name: Source Control                                */
+/*       Description: Application Master Table                      */
+/*              Date: 11/14/2022.                                   */
+/*            Author: Ramon Lopez                                   */
+/*-------------------------------------------------------------------*/
+/*                     Compilation Instruction                       */
+/*                                                                   */
+/* RUNSQLSTM SRCFILE(ALOPEZ151/QSQLSRC) SRCMBR(APPLICAT)             */
+/* ERRLVL(21) DFTRDBCOL(ALOPEZ151)                                   */
+/*                                                                   */
+/*-------------------------------------------------------------------*/
+/* DROP TABLE APPLICAT                                               */
+CREATE TABLE APPLICAT
+       (CODAPP SMALLINT NOT NULL,
+        DESCAPP CHAR(30),
+        FILELIB CHAR(10),
+        PGMLIB  CHAR(10),
+        PRIMARY KEY(CODAPP))

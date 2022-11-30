@@ -1,0 +1,29 @@
+/*==================================================================*/
+/* I N F O R M A C I O N   D E L   M O D U L O                      */
+/* -------------------------------------------                      */
+/*                                                                  */
+/*  Application Name: Source Control                                */
+/*       Description: Master Objects                                */
+/*              Date: 11/22/2022.                                   */
+/*            Author: Ramon Lopez                                   */
+/*-------------------------------------------------------------------*/
+/*                     Compilation Instruction                       */
+/*                                                                   */
+/* RUNSQLSTM SRCFILE(ALOPEZ151/QSQLSRC) SRCMBR(HISTORY)              */
+/* ERRLVL(21) DFTRDBCOL(ALOPEZ151)                                   */
+/*                                                                   */
+/*-------------------------------------------------------------------*/
+/* DROP TABLE HISTORY                                                */
+CREATE TABLE HISTORY
+       (OBJNAM CHAR(10) NOT NULL,
+        OBJTYP CHAR(5) NOT NULL,
+        EXTTYP CHAR(5) NOT NULL,
+        DATEPROM DATE NOT NULL,
+        TIMEPROM TIME NOT NULL,
+        DEVELOP CHAR(10),
+        TESTER  CHAR(10),
+        PRODUCT CHAR(10),
+        MEMBER  CHAR(10),
+        PRIMARY KEY(OBJNAM, OBJTYP, EXTTYP, DATEPROM, TIMEPROM),
+        FOREIGN KEY ENVPROD1 (PRODENV)
+        REFERENCES ENVIRONM ON DELETE NO ACTION)
